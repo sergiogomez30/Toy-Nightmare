@@ -294,7 +294,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a5cb98f679bf7341bdffe27434129f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 7
+  dashSpeed: 4
+  dashTime: 0.4
   movementDirection: {x: 0, y: 0, z: 0}
 --- !u!95 &88063675
 Animator:
