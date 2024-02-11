@@ -26,9 +26,12 @@ public class playerMovement : MonoBehaviour
 
     public void movement()
     {
-        horizontal = Input.GetAxisRaw("Horizontal"); //GetAxisRaw elimina la progresión de movimiento (antes utilizaba GetAxis)
-        vertical = Input.GetAxisRaw("Vertical");
-
+        if (!dashing)
+        {
+            horizontal = Input.GetAxisRaw("Horizontal"); //GetAxisRaw elimina la progresión de movimiento (antes utilizaba GetAxis)
+            vertical = Input.GetAxisRaw("Vertical");
+        }
+        
         movementDirection = new Vector3(horizontal, 0, vertical).normalized;
 
         isMoving = movementDirection != new Vector3(0, 0, 0);
