@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class playerMovement : MonoBehaviour
 {
-    public int speed;
-    public int dashSpeed;
+    public float speed;
+    public float dashSpeed;
     public float dashTime;
     private bool dashing;
     private bool isMoving;
@@ -20,6 +20,11 @@ public class playerMovement : MonoBehaviour
     }
 
     private void Update()
+    {
+        dash();
+    }
+
+    private void FixedUpdate()
     {
         movement();
     }
@@ -36,29 +41,30 @@ public class playerMovement : MonoBehaviour
 
         isMoving = movementDirection != new Vector3(0, 0, 0);
 
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            if (!dashing && isMoving)
-            {
-                StartCoroutine(dash());
-            }
-
-        }
-
-
         //Mueve al jugador
         movementDirection = new Vector3(horizontal, 0, vertical).normalized;
         transform.Translate(movementDirection * speed * Time.deltaTime, Space.World);
         print(movementDirection);
     }
 
-    public IEnumerator dash()
+    public void dash()
     {
-        speed = speed + dashSpeed;
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (!dashing && isMoving)
+            {
+                StartCoroutine(dashDuration());
+            }
+
+        }
+    }
+
+    public IEnumerator dashDuration()
+    {
+        speed += dashSpeed;
         dashing = true;
         yield return new WaitForSeconds(dashTime);
-        speed = speed - dashSpeed;
+        speed -= dashSpeed;
         dashing = false;
     }
 }
