@@ -9,14 +9,16 @@ public class playerMovement : MonoBehaviour
     public float dashTime;
     private bool dashing;
     private bool isMoving;
+    public int dimension;
 
     float horizontal;
     float vertical;
-    public Vector3 movementDirection;
+    Vector3 movementDirection;
 
     private void Start()
     {
         dashing = false;
+        dimension = 2;
     }
 
     private void Update()
@@ -42,7 +44,15 @@ public class playerMovement : MonoBehaviour
         isMoving = movementDirection != new Vector3(0, 0, 0);
 
         //Mueve al jugador
-        movementDirection = new Vector3(horizontal, 0, vertical).normalized;
+        if(dimension == 2) //cambian los controles dependiendo de la dimension
+        {
+            movementDirection = new Vector3(horizontal, 0, vertical).normalized;
+        }
+        else
+        {
+            movementDirection = new Vector3(vertical, 0, -horizontal).normalized;
+        }
+       
         transform.Translate(movementDirection * speed * Time.deltaTime, Space.World);
         print(movementDirection);
     }
