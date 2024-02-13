@@ -17,11 +17,14 @@ public class playerMovement : MonoBehaviour
 
     ChangeDimension scriptDimension;
 
+    private Animator playerAnimator;
+
     private void Start()
     {
         dashing = false;
         dimension = 2;
         scriptDimension = this.GetComponent<ChangeDimension>();
+        playerAnimator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -60,6 +63,10 @@ public class playerMovement : MonoBehaviour
         
         isMoving = movementDirection != new Vector3(0, 0, 0);
 
+        playerAnimator.SetFloat("Horizontal", horizontal);
+        playerAnimator.SetFloat("Vertical", vertical);
+        playerAnimator.SetFloat("Speed", movementDirection.sqrMagnitude);
+
         //Mueve al jugador
         transform.Translate(movementDirection * speed * Time.deltaTime, Space.World);
         print(movementDirection);
@@ -81,8 +88,10 @@ public class playerMovement : MonoBehaviour
     {
         speed += dashSpeed;
         dashing = true;
+        playerAnimator.SetBool("isRolling", true);
         yield return new WaitForSeconds(dashTime);
         speed -= dashSpeed;
         dashing = false;
+        playerAnimator.SetBool("isRolling", false);
     }
 }
