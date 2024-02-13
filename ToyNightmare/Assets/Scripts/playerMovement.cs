@@ -8,17 +8,20 @@ public class playerMovement : MonoBehaviour
     public float dashSpeed;
     public float dashTime;
     private bool dashing;
-    private bool isMoving;
+    public bool isMoving;
     public int dimension;
 
     float horizontal;
     float vertical;
-    Vector3 movementDirection;
+    public Vector3 movementDirection;
+
+    ChangeDimension scriptDimension;
 
     private void Start()
     {
         dashing = false;
         dimension = 2;
+        scriptDimension = this.GetComponent<ChangeDimension>();
     }
 
     private void Update()
@@ -38,21 +41,26 @@ public class playerMovement : MonoBehaviour
             horizontal = Input.GetAxisRaw("Horizontal"); //GetAxisRaw elimina la progresión de movimiento (antes utilizaba GetAxis)
             vertical = Input.GetAxisRaw("Vertical");
         }
-        
-        movementDirection = new Vector3(horizontal, 0, vertical).normalized;
 
-        isMoving = movementDirection != new Vector3(0, 0, 0);
-
-        //Mueve al jugador
-        if(dimension == 2) //cambian los controles dependiendo de la dimension
+        if (scriptDimension.changingDimension)
         {
-            movementDirection = new Vector3(horizontal, 0, vertical).normalized;
+            movementDirection = new Vector3(0, 0, 0);
         }
         else
         {
-            movementDirection = new Vector3(vertical, 0, -horizontal).normalized;
+            if (dimension == 2) //cambian los controles dependiendo de la dimension
+            {
+                movementDirection = new Vector3(horizontal, 0, vertical).normalized;
+            }
+            else
+            {
+                movementDirection = new Vector3(vertical, 0, -horizontal).normalized;
+            }
         }
-       
+        
+        isMoving = movementDirection != new Vector3(0, 0, 0);
+
+        //Mueve al jugador
         transform.Translate(movementDirection * speed * Time.deltaTime, Space.World);
         print(movementDirection);
     }

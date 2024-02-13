@@ -11,24 +11,30 @@ public class ChangeDimension : MonoBehaviour
     public CinemachineVirtualCamera startCam;
     CinemachineVirtualCamera currentCam;
 
-    Vector3 rotationAngles;
     playerMovement scriptMovement;
+    public bool changingDimension;
 
     private void Start()
     {
         currentCam = startCam;
         currentCam.Priority = 20;
         scriptMovement = this.GetComponent<playerMovement>();
+        changingDimension = false;
     }
 
     void Update()
     {
         changeDimension();
+
+        if (changingDimension)
+        {
+            rotatePlayer();
+        }
     }
 
     public void changeDimension()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !changingDimension)
         {
             if(currentCam == twoDCam)
             {
@@ -50,20 +56,43 @@ public class ChangeDimension : MonoBehaviour
         if (currentCam == twoDCam)
         {
             threeDCam.Priority = 10;
-
-            rotationAngles = new Vector3(0, -90, 0);
-            transform.Rotate(rotationAngles);
             scriptMovement.dimension = 2;
         }
         else
         {
             twoDCam.Priority = 10;
-
-            rotationAngles = new Vector3(0, 90, 0);
-            transform.Rotate(rotationAngles);
             scriptMovement.dimension = 3;
         }
 
+        changingDimension = true;
+        StartCoroutine(tiltPlayer());     
+    }
 
+    public IEnumerator tiltPlayer()
+    {
+        yield return new WaitForSeconds(1f);
+        changingDimension = false;
+
+        if(currentCam == twoDCam)
+        {
+            transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+        else
+        {
+            transform.eulerAngles = new Vector3(0, 90, 0);
+        }
+
+    }
+
+    public void rotatePlayer()
+    {
+        if(currentCam == twoDCam)
+        {
+            transform.Rotate(0, -90 * Time.deltaTime, 0);
+        }
+        else
+        {
+            transform.Rotate(0, 90 * Time.deltaTime, 0);
+        }
     }
 }
