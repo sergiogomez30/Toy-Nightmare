@@ -5,19 +5,22 @@ using Cinemachine;
 
 public class ChangeDimension : MonoBehaviour
 {
-    public CinemachineVirtualCamera twoDCam;
-    public CinemachineVirtualCamera threeDCam;
+    public Camera ortographicCam;
+    public Camera perspectiveCam;
 
-    public CinemachineVirtualCamera startCam;
-    CinemachineVirtualCamera currentCam;
+    public CinemachineVirtualCamera twoDVirtualFakeCam;
+    public CinemachineVirtualCamera threeDVirtualCam;
+
+    public Camera startCam;
+    private Camera currentCam;
 
     playerMovement scriptMovement;
-    public bool changingDimension;
+    [HideInInspector] public bool changingDimension;
 
     private void Start()
     {
         currentCam = startCam;
-        currentCam.Priority = 20;
+        currentCam.depth = 1;
         scriptMovement = this.GetComponent<playerMovement>();
         changingDimension = false;
     }
@@ -36,31 +39,36 @@ public class ChangeDimension : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && !changingDimension)
         {
-            if(currentCam == twoDCam)
+            if(currentCam == ortographicCam)
             {
-                SwitchCamera(threeDCam);
+                SwitchCamera(perspectiveCam);
             }
             else
             {
-                SwitchCamera(twoDCam);
+                SwitchCamera(ortographicCam);
             }
         }
     }
 
-    public void SwitchCamera(CinemachineVirtualCamera newCam)
+    public void SwitchCamera(Camera newCam)
     {
         currentCam = newCam;
 
-        currentCam.Priority = 20;
-
-        if (currentCam == twoDCam)
+        if (currentCam == ortographicCam)
         {
-            threeDCam.Priority = 10;
+            threeDVirtualCam.Priority = 10;
+            twoDVirtualFakeCam.Priority = 20;
+            
+
             scriptMovement.dimension = 2;
         }
         else
         {
-            twoDCam.Priority = 10;
+            ortographicCam.depth = 0;
+            perspectiveCam.depth = 1;
+            twoDVirtualFakeCam.Priority = 10;
+            threeDVirtualCam.Priority = 20;
+
             scriptMovement.dimension = 3;
         }
 
@@ -68,14 +76,16 @@ public class ChangeDimension : MonoBehaviour
         StartCoroutine(tiltPlayer());     
     }
 
-    public IEnumerator tiltPlayer()
+    public IEnumerator tiltPlayer() //asegura que el personaje quede bien rotado después de un cambio de dimension
     {
         yield return new WaitForSeconds(1f);
         changingDimension = false;
 
-        if(currentCam == twoDCam)
+        if (currentCam == ortographicCam)
         {
             transform.eulerAngles = new Vector3(0, 0, 0);
+            ortographicCam.depth = 1;
+            perspectiveCam.depth = 0;
         }
         else
         {
@@ -86,13 +96,15 @@ public class ChangeDimension : MonoBehaviour
 
     public void rotatePlayer()
     {
-        if(currentCam == twoDCam)
+        transform.eulerAngles = new Vector3(0, perspectiveCam.transform.eulerAngles.y, 0);
+
+        /*if (currentCam == twoDVirtualFakeCam)
         {
             transform.Rotate(0, -90 * Time.deltaTime, 0);
         }
         else
         {
             transform.Rotate(0, 90 * Time.deltaTime, 0);
-        }
+        }*/
     }
 }

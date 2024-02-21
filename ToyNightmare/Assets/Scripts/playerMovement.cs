@@ -8,12 +8,12 @@ public class playerMovement : MonoBehaviour
     public float dashSpeed;
     public float dashTime;
     private bool dashing;
-    public bool isMoving;
-    public int dimension;
+    private bool isMoving;
+    [HideInInspector] public int dimension;
 
-    float horizontal;
-    float vertical;
-    public Vector3 movementDirection;
+    private float horizontal;
+    private float vertical;
+    private Vector3 movementDirection;
 
     ChangeDimension scriptDimension;
 
@@ -69,7 +69,6 @@ public class playerMovement : MonoBehaviour
 
         //Mueve al jugador
         transform.Translate(movementDirection * speed * Time.deltaTime, Space.World);
-        print(movementDirection);
     }
 
     public void dash()
