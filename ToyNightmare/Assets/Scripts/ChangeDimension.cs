@@ -9,6 +9,7 @@ public class ChangeDimension : MonoBehaviour
     public Camera perspectiveCam;
 
     public CinemachineVirtualCamera twoDVirtualFakeCam;
+    public CinemachineVirtualCamera twoDVirtualFakeCam_2;
     public CinemachineVirtualCamera threeDVirtualCam;
 
     public Camera startCam;
@@ -16,6 +17,9 @@ public class ChangeDimension : MonoBehaviour
 
     playerMovement scriptMovement;
     [HideInInspector] public bool changingDimension;
+    public bool canDash;
+
+    private float changeDimensionTimer;
 
     private void Start()
     {
@@ -23,6 +27,7 @@ public class ChangeDimension : MonoBehaviour
         currentCam.depth = 1;
         scriptMovement = this.GetComponent<playerMovement>();
         changingDimension = false;
+        canDash = true;
     }
 
     void Update()
@@ -39,7 +44,11 @@ public class ChangeDimension : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && !changingDimension)
         {
-            if(currentCam == ortographicCam)
+            changingDimension = true;
+            changeDimensionTimer = 0;
+            canDash = false;
+
+            if (currentCam == ortographicCam)
             {
                 SwitchCamera(perspectiveCam);
             }
@@ -53,13 +62,12 @@ public class ChangeDimension : MonoBehaviour
     public void SwitchCamera(Camera newCam)
     {
         currentCam = newCam;
-
+        
         if (currentCam == ortographicCam)
         {
             threeDVirtualCam.Priority = 10;
-            twoDVirtualFakeCam.Priority = 20;
+            twoDVirtualFakeCam_2.Priority = 20;
             
-
             scriptMovement.dimension = 2;
         }
         else
@@ -70,22 +78,20 @@ public class ChangeDimension : MonoBehaviour
             threeDVirtualCam.Priority = 20;
 
             scriptMovement.dimension = 3;
-        }
-
-        changingDimension = true;
-        StartCoroutine(tiltPlayer());     
+        }  
     }
 
-    public IEnumerator tiltPlayer() //asegura que el personaje quede bien rotado después de un cambio de dimension
+    public void tiltPlayerAndCameras() //asegura que el personaje y las cámaras queden bien posicionados después de un cambio de dimension
     {
-        yield return new WaitForSeconds(1f);
         changingDimension = false;
 
         if (currentCam == ortographicCam)
         {
-            transform.eulerAngles = new Vector3(0, 0, 0);
             ortographicCam.depth = 1;
             perspectiveCam.depth = 0;
+            twoDVirtualFakeCam.Priority = 20;
+            twoDVirtualFakeCam_2.Priority = 10;
+            transform.eulerAngles = new Vector3(0, 0, 0);
         }
         else
         {
@@ -97,6 +103,28 @@ public class ChangeDimension : MonoBehaviour
     public void rotatePlayer()
     {
         transform.eulerAngles = new Vector3(0, perspectiveCam.transform.eulerAngles.y, 0);
+
+        changeDimensionTimer += Time.deltaTime;
+        if(currentCam == ortographicCam)
+        {
+            if (changeDimensionTimer >= 1)
+            {
+                tiltPlayerAndCameras();
+            }
+        }
+        else
+        {
+            if (changeDimensionTimer >= 0.44f)
+            {
+                tiltPlayerAndCameras();
+            }
+        }
+
+        if (changeDimensionTimer >= 0.2f)
+        {
+            canDash = true; //permite dashear poco después de que empiece la animación de cambio de dimensión
+        }
+
 
         /*if (currentCam == twoDVirtualFakeCam)
         {

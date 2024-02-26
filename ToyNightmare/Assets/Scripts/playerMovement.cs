@@ -7,7 +7,7 @@ public class playerMovement : MonoBehaviour
     public float speed;
     public float dashSpeed;
     public float dashTime;
-    private bool dashing;
+    [HideInInspector] public bool dashing;
     private bool isMoving;
     [HideInInspector] public int dimension;
 
@@ -18,6 +18,8 @@ public class playerMovement : MonoBehaviour
     ChangeDimension scriptDimension;
 
     private Animator playerAnimator;
+
+    private float dashTimer;
 
     private void Start()
     {
@@ -45,21 +47,22 @@ public class playerMovement : MonoBehaviour
             vertical = Input.GetAxisRaw("Vertical");
         }
 
-        if (scriptDimension.changingDimension)
+    
+        if (dimension == 2) //cambian los controles dependiendo de la dimension
         {
-            movementDirection = new Vector3(0, 0, 0);
+            //if (!dashing) //la trayectoria del dash será la misma aunque se cambie de dimension en medio de la misma
+            //{
+                movementDirection = new Vector3(horizontal, 0, vertical).normalized;
+            //}
         }
         else
         {
-            if (dimension == 2) //cambian los controles dependiendo de la dimension
-            {
-                movementDirection = new Vector3(horizontal, 0, vertical).normalized;
-            }
-            else
-            {
+            //if (!dashing) //la trayectoria del dash será la misma aunque se cambie de dimension en medio de la misma
+            //{
                 movementDirection = new Vector3(vertical, 0, -horizontal).normalized;
-            }
+            //}
         }
+        
         
         isMoving = movementDirection != new Vector3(0, 0, 0);
 
@@ -75,22 +78,24 @@ public class playerMovement : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            if (!dashing && isMoving)
+            if (!dashing && isMoving && scriptDimension.canDash)
             {
-                StartCoroutine(dashDuration());
+                dashing = true;
+                dashTimer = 0;
+                speed += dashSpeed;
+                playerAnimator.SetBool("isRolling", true);
             }
-
         }
-    }
 
-    public IEnumerator dashDuration()
-    {
-        speed += dashSpeed;
-        dashing = true;
-        playerAnimator.SetBool("isRolling", true);
-        yield return new WaitForSeconds(dashTime);
-        speed -= dashSpeed;
-        dashing = false;
-        playerAnimator.SetBool("isRolling", false);
+        if (dashing)
+        {
+            dashTimer += Time.deltaTime;
+            if(dashTimer > dashTime)
+            {
+                speed -= dashSpeed;
+                dashing = false;
+                playerAnimator.SetBool("isRolling", false);
+            }
+        }
     }
 }
