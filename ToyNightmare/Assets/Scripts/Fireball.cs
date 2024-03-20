@@ -6,7 +6,7 @@ public class Fireball : MonoBehaviour
 {
     public float speed;
 
-    void Update()
+    void FixedUpdate()
     {
         Destroy(gameObject, 20);
 

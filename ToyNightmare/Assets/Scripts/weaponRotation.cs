@@ -5,7 +5,7 @@ using UnityEngine;
 public class weaponRotation : MonoBehaviour
 {
     public Camera cam;
-    public LayerMask groundMask;
+    [SerializeField] private LayerMask floorMask;
     Vector3 mouseWorldPoint;
 
     private Animator playerAnimator;
@@ -20,15 +20,16 @@ public class weaponRotation : MonoBehaviour
         rend = GetComponent<SpriteRenderer>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
-        if(Physics.Raycast(ray, out RaycastHit raycastHit)) 
+        if(Physics.Raycast(ray, out RaycastHit raycastHit, Mathf.Infinity, floorMask)) 
         {
+            //Debug.DrawRay(ray.origin, ray.direction * 30f);
             mouseWorldPoint = raycastHit.point;
         }
-
+        
         Vector3 direction = (mouseWorldPoint - transform.position).normalized;
         direction_x = direction.x;
         direction_z = direction.z;
