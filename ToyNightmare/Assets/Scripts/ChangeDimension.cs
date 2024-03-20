@@ -17,9 +17,13 @@ public class ChangeDimension : MonoBehaviour
 
     playerMovement scriptMovement;
     [HideInInspector] public bool changingDimension;
-    public bool canDash;
+    [HideInInspector] public bool canDash;
+
+    public GameObject weapon;
 
     private float changeDimensionTimer;
+
+    
 
     private void Start()
     {
@@ -67,7 +71,9 @@ public class ChangeDimension : MonoBehaviour
         {
             threeDVirtualCam.Priority = 10;
             twoDVirtualFakeCam_2.Priority = 20;
-            
+
+            weapon.SetActive(true);
+
             scriptMovement.dimension = 2;
         }
         else
@@ -76,6 +82,8 @@ public class ChangeDimension : MonoBehaviour
             perspectiveCam.depth = 1;
             twoDVirtualFakeCam.Priority = 10;
             threeDVirtualCam.Priority = 20;
+
+            weapon.SetActive(false);
 
             scriptMovement.dimension = 3;
         }  

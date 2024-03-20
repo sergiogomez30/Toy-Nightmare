@@ -10,12 +10,16 @@ public class playerMovement : MonoBehaviour
     [HideInInspector] public bool dashing;
     private bool isMoving;
     [HideInInspector] public int dimension;
+    public GameObject weapon;
 
     private float horizontal;
     private float vertical;
+    private float lastHorizontal;
+    private float lastVertical;
     private Vector3 movementDirection;
 
     ChangeDimension scriptDimension;
+    weaponRotation scriptWeaponRotation;
 
     private Animator playerAnimator;
 
@@ -25,7 +29,8 @@ public class playerMovement : MonoBehaviour
     {
         dashing = false;
         dimension = 2;
-        scriptDimension = this.GetComponent<ChangeDimension>();
+        scriptDimension = GetComponent<ChangeDimension>();
+        scriptWeaponRotation = GetComponentInChildren<weaponRotation>();
         playerAnimator = GetComponent<Animator>();
     }
 
@@ -66,9 +71,20 @@ public class playerMovement : MonoBehaviour
         
         isMoving = movementDirection != new Vector3(0, 0, 0);
 
+        if (movementDirection.sqrMagnitude >= 0.9f) //guarda la última dirección para que al dejar de caminar el personaje se quede mirando hacía ella
+        {
+            lastHorizontal = Input.GetAxisRaw("Horizontal");
+            lastVertical = Input.GetAxisRaw("Vertical");
+        }
+
         playerAnimator.SetFloat("Horizontal", horizontal);
         playerAnimator.SetFloat("Vertical", vertical);
+        playerAnimator.SetFloat("LastHorizontal", lastHorizontal);
+        playerAnimator.SetFloat("LastVertical", lastVertical);
         playerAnimator.SetFloat("Speed", movementDirection.sqrMagnitude);
+        playerAnimator.SetFloat("Direction_x", scriptWeaponRotation.direction_x);
+        playerAnimator.SetFloat("Direction_z", scriptWeaponRotation.direction_z);
+        playerAnimator.SetInteger("Dimension", dimension);
 
         //Mueve al jugador
         transform.Translate(movementDirection * speed * Time.deltaTime, Space.World);
@@ -84,6 +100,7 @@ public class playerMovement : MonoBehaviour
                 dashTimer = 0;
                 speed += dashSpeed;
                 playerAnimator.SetBool("isRolling", true);
+                weapon.SetActive(false);
             }
         }
 
@@ -95,6 +112,11 @@ public class playerMovement : MonoBehaviour
                 speed -= dashSpeed;
                 dashing = false;
                 playerAnimator.SetBool("isRolling", false);
+                
+                if(dimension == 2)
+                {
+                    weapon.SetActive(true);
+                }
             }
         }
     }
