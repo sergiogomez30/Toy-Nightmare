@@ -69,7 +69,7 @@ public class handPosition : MonoBehaviour
         }
 
         direction = (mouseWorldPoint - transform.position);
-        //print(direction.x);
+        print(direction.x);
 
         if(!weaponSystemTransformAnimator.GetCurrentAnimatorStateInfo(0).IsName("Recoil")) //si no se está ejecutando la animación de disparo
         {
