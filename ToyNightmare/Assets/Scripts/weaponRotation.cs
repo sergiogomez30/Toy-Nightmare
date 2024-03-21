@@ -9,10 +9,10 @@ public class weaponRotation : MonoBehaviour
     Vector3 mouseWorldPoint;
 
     private Animator playerAnimator;
-    [HideInInspector] public float direction_x;
-    [HideInInspector] public float direction_z;
+    [HideInInspector] public Vector3 direction;
 
     private SpriteRenderer rend;
+ 
 
     private void Start()
     {
@@ -26,17 +26,13 @@ public class weaponRotation : MonoBehaviour
 
         if(Physics.Raycast(ray, out RaycastHit raycastHit, Mathf.Infinity, floorMask)) 
         {
-            //Debug.DrawRay(ray.origin, ray.direction * 30f);
             mouseWorldPoint = raycastHit.point;
         }
         
-        Vector3 direction = (mouseWorldPoint - transform.position).normalized;
-        direction_x = direction.x;
-        direction_z = direction.z;
-        print(direction_z);
+        direction = (mouseWorldPoint - transform.position).normalized;
         float angle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
 
-        if(direction.z <= 0.37f)
+        if(direction.z < 0)
         {
             rend.sortingOrder = 4;
         }
@@ -46,6 +42,19 @@ public class weaponRotation : MonoBehaviour
         }
 
         transform.eulerAngles = new Vector3(90, 0, angle);
+    }
+
+    private void Update()
+    {
+        if (direction.x <= 0)
+        {
+            rend.flipY = true;
+            
+        }
+        else
+        {
+            rend.flipY = false;
+        }
     }
 
     // Update is called once per frame

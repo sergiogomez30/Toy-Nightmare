@@ -12,14 +12,6 @@ public class Fireball : MonoBehaviour
 
         transform.position += transform.up * speed * Time.deltaTime;
     }
-
-    /*private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.layer == 0)
-        {
-            Destroy(gameObject);
-        }
-    }*/
     
     private void OnTriggerEnter(Collider other)
     {

@@ -82,8 +82,8 @@ public class playerMovement : MonoBehaviour
         playerAnimator.SetFloat("LastHorizontal", lastHorizontal);
         playerAnimator.SetFloat("LastVertical", lastVertical);
         playerAnimator.SetFloat("Speed", movementDirection.sqrMagnitude);
-        playerAnimator.SetFloat("Direction_x", scriptWeaponRotation.direction_x);
-        playerAnimator.SetFloat("Direction_z", scriptWeaponRotation.direction_z);
+        playerAnimator.SetFloat("Direction_x", scriptWeaponRotation.direction.x);
+        playerAnimator.SetFloat("Direction_z", scriptWeaponRotation.direction.z);
         playerAnimator.SetInteger("Dimension", dimension);
 
         //Mueve al jugador

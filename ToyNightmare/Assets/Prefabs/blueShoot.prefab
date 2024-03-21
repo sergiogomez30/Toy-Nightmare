@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8251889749860510770}
   - component: {fileID: 535663553424972106}
-  - component: {fileID: 3793043770659140251}
   - component: {fileID: 5568101264589713456}
+  - component: {fileID: 3793043770659140251}
   - component: {fileID: 4902330755554160751}
   m_Layer: 0
   m_Name: blueShoot
@@ -87,6 +87,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!65 &5568101264589713456
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9134843778874183497}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.2, y: 0.3, z: 0.045241203}
+  m_Center: {x: 0, y: 3.636832e-19, z: 0.00051387306}
 --- !u!54 &3793043770659140251
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -114,27 +135,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 0
---- !u!65 &5568101264589713456
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9134843778874183497}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.2, y: 0.3, z: 0.045241203}
-  m_Center: {x: 0, y: 3.636832e-19, z: 0.00051387306}
 --- !u!114 &4902330755554160751
 MonoBehaviour:
   m_ObjectHideFlags: 0

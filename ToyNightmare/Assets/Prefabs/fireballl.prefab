@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3252537790207004863}
   - component: {fileID: 1758309835841288535}
-  - component: {fileID: 4786215471058429301}
   - component: {fileID: -7810379740024905342}
   - component: {fileID: -5716878730151843201}
+  - component: {fileID: 4786215471058429301}
   m_Layer: 0
   m_Name: fireballl
   m_TagString: Untagged
@@ -87,19 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4786215471058429301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7906303288788491911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33b97514da52bf944a9c9d8f29d17fc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
 --- !u!65 &-7810379740024905342
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -119,8 +106,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.16, y: 0.16, z: 0.2}
-  m_Center: {x: -0.0051765516, y: -0.0040672943, z: 0}
+  m_Size: {x: 0.029943665, y: 0.029839166, z: 0.015325922}
+  m_Center: {x: -0.0003569536, y: 0.0008327924, z: -0.0013247549}
 --- !u!54 &-5716878730151843201
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -148,3 +135,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 0
+--- !u!114 &4786215471058429301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7906303288788491911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b97514da52bf944a9c9d8f29d17fc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
