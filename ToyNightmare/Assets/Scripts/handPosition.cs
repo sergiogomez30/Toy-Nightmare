@@ -9,32 +9,53 @@ public class handPosition : MonoBehaviour
     [SerializeField] private LayerMask floorMask;
     Vector3 mouseWorldPoint;
 
-    public Transform hand;
+    public Transform weaponSystemTransform;
 
-    private Vector3 initialLeftHand;
-    private Vector3 initialRightHand;
     [HideInInspector] public Vector3 direction;
 
-    private Vector3 leftHand;
-    private Vector3 rightHand;
+    private Vector3 initialLeftweaponSystemTransform;
+    private Vector3 initialRightweaponSystemTransform;
+    
+
+    private Vector3 leftweaponSystemTransform;
+    private Vector3 rightweaponSystemTransform;
 
     public GameObject weaponSystem;
-    private Animator weaponSystemAnimator;
-    private AnimatorStateInfo stateInfo;
-    private AnimatorClipInfo clip;
-    
+    private Animator weaponSystemTransformAnimator;
+
+    public GameObject weapon;
+    private SpriteRenderer rendWeapon;
+
+    public GameObject hand;
+    private SpriteRenderer rendHand;
+
 
     void Start()
     {
-        initialLeftHand = new Vector3(-hand.position.x, hand.position.y, hand.position.z);
-        initialRightHand = new Vector3(hand.position.x, hand.position.y, hand.position.z);
-        weaponSystemAnimator = weaponSystem.GetComponent<Animator>();
+        initialLeftweaponSystemTransform = new Vector3(-weaponSystemTransform.position.x, weaponSystemTransform.position.y, weaponSystemTransform.position.z);
+        initialRightweaponSystemTransform = new Vector3(weaponSystemTransform.position.x, weaponSystemTransform.position.y, weaponSystemTransform.position.z);
+        weaponSystemTransformAnimator = weaponSystemTransform.GetComponent<Animator>();
+
+        rendWeapon = weapon.GetComponent<SpriteRenderer>();
+        rendHand = hand.GetComponent<SpriteRenderer>();
     }
 
     private void Update()
     {
-        leftHand = transform.position + initialLeftHand;
-        rightHand = transform.position + initialRightHand;
+        leftweaponSystemTransform = transform.position + initialLeftweaponSystemTransform;
+        rightweaponSystemTransform = transform.position + initialRightweaponSystemTransform;
+
+        if (direction.x <= 0)
+        {
+            rendWeapon.flipY = true;
+            rendHand.flipY = true;
+
+        }
+        else
+        {
+            rendWeapon.flipY = false;
+            rendHand.flipY = false;
+        }
     }
 
 
@@ -48,17 +69,17 @@ public class handPosition : MonoBehaviour
         }
 
         direction = (mouseWorldPoint - transform.position);
-        print(direction.x);
+        //print(direction.x);
 
-        if (!weaponSystemAnimator.GetCurrentAnimatorStateInfo(0).IsName("Recoil")) //si no se está ejecutando la animación de disparo
+        if(!weaponSystemTransformAnimator.GetCurrentAnimatorStateInfo(0).IsName("Recoil")) //si no se está ejecutando la animación de disparo
         {
             if (direction.x < 0f)
             {
-                hand.position = leftHand;
+                weaponSystemTransform.position = leftweaponSystemTransform;
             }
             else
             {
-                hand.position = rightHand;
+                weaponSystemTransform.position = rightweaponSystemTransform;
             }
         }
     }

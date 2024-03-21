@@ -8,16 +8,15 @@ public class weaponRotation : MonoBehaviour
     [SerializeField] private LayerMask floorMask;
     Vector3 mouseWorldPoint;
 
-    private Animator playerAnimator;
     [HideInInspector] public Vector3 direction;
 
-    private SpriteRenderer rend;
- 
+    public GameObject weapon;
+    private SpriteRenderer rendWeapon;
+
 
     private void Start()
     {
-        playerAnimator = GetComponent<Animator>();
-        rend = GetComponent<SpriteRenderer>();
+        rendWeapon = weapon.GetComponent<SpriteRenderer>();
     }
 
     private void FixedUpdate()
@@ -34,27 +33,14 @@ public class weaponRotation : MonoBehaviour
 
         if(direction.z < 0)
         {
-            rend.sortingOrder = 4;
+            rendWeapon.sortingOrder = 4;
         }
         else
         {
-            rend.sortingOrder = 2;
+            rendWeapon.sortingOrder = 2;
         }
 
         transform.eulerAngles = new Vector3(90, 0, angle);
-    }
-
-    private void Update()
-    {
-        if (direction.x <= 0)
-        {
-            rend.flipY = true;
-            
-        }
-        else
-        {
-            rend.flipY = false;
-        }
     }
 
     // Update is called once per frame
