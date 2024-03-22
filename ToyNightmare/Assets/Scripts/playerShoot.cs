@@ -23,15 +23,9 @@ public class playerShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (weaponSystemAnimator.GetCurrentAnimatorStateInfo(0).IsName("Recoil"))
+        if (scriptMovement.dimension == 2 && !scriptMovement.dashing && !weaponSystemAnimator.GetCurrentAnimatorStateInfo(0).IsName("Recoil"))
         {
-            shooting = true;
-        }
-        else shooting = false;
-
-        if (scriptMovement.dimension == 2 && !scriptMovement.dashing && !shooting)
-        {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButton(0))
             {
                 Instantiate(fireballPrefab, firePoint.position, firePoint.rotation);
                 weaponSystemAnimator.SetTrigger("Shoot");
