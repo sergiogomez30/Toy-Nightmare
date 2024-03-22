@@ -19,7 +19,7 @@ public class playerMovement : MonoBehaviour
     private Vector3 movementDirection;
 
     ChangeDimension scriptDimension;
-    weaponRotation scriptWeaponRotation;
+    handPosition scriptHandPosition;
 
     private Animator playerAnimator;
 
@@ -30,7 +30,7 @@ public class playerMovement : MonoBehaviour
         dashing = false;
         dimension = 2;
         scriptDimension = GetComponent<ChangeDimension>();
-        scriptWeaponRotation = GetComponentInChildren<weaponRotation>();
+        scriptHandPosition = GetComponent<handPosition>();
         playerAnimator = GetComponent<Animator>();
     }
 
@@ -82,8 +82,8 @@ public class playerMovement : MonoBehaviour
         playerAnimator.SetFloat("LastHorizontal", lastHorizontal);
         playerAnimator.SetFloat("LastVertical", lastVertical);
         playerAnimator.SetFloat("Speed", movementDirection.sqrMagnitude);
-        playerAnimator.SetFloat("Direction_x", scriptWeaponRotation.direction.x);
-        playerAnimator.SetFloat("Direction_z", scriptWeaponRotation.direction.z);
+        playerAnimator.SetFloat("Direction_x", scriptHandPosition.direction.x);
+        playerAnimator.SetFloat("Direction_z", scriptHandPosition.direction.z);
         playerAnimator.SetInteger("Dimension", dimension);
 
         //Mueve al jugador
