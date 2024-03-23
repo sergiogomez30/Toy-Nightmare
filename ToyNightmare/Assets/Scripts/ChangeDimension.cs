@@ -19,7 +19,8 @@ public class ChangeDimension : MonoBehaviour
     [HideInInspector] public bool changingDimension;
     [HideInInspector] public bool canDash;
 
-    public GameObject weapon;
+    public GameObject weaponSystem;
+    public GameObject crosshair;
 
     private float changeDimensionTimer;
 
@@ -72,7 +73,8 @@ public class ChangeDimension : MonoBehaviour
             threeDVirtualCam.Priority = 10;
             twoDVirtualFakeCam_2.Priority = 20;
 
-            weapon.SetActive(true);
+            weaponSystem.SetActive(true);
+            crosshair.SetActive(true);
 
             scriptMovement.dimension = 2;
         }
@@ -83,7 +85,8 @@ public class ChangeDimension : MonoBehaviour
             twoDVirtualFakeCam.Priority = 10;
             threeDVirtualCam.Priority = 20;
 
-            weapon.SetActive(false);
+            weaponSystem.SetActive(false);
+            crosshair.SetActive(false);
 
             scriptMovement.dimension = 3;
         }  

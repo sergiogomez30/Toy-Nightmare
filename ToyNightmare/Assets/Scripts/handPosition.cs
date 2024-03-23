@@ -40,27 +40,9 @@ public class handPosition : MonoBehaviour
         rendHand = hand.GetComponent<SpriteRenderer>();
     }
 
-    private void Update()
-    {
-        leftweaponSystemTransform = transform.position + initialLeftweaponSystemTransform;
-        rightweaponSystemTransform = transform.position + initialRightweaponSystemTransform;
-
-        if (direction.x <= 0)
-        {
-            rendWeapon.flipY = true;
-            rendHand.flipY = true;
-
-        }
-        else
-        {
-            rendWeapon.flipY = false;
-            rendHand.flipY = false;
-        }
-    }
-
-
     private void FixedUpdate()
     {
+
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit raycastHit, Mathf.Infinity, floorMask))
@@ -71,13 +53,20 @@ public class handPosition : MonoBehaviour
         direction = (mouseWorldPoint - transform.position);
         //print(direction.x);
 
-        if (direction.x < 0f)
+        leftweaponSystemTransform = transform.position + initialLeftweaponSystemTransform;
+        rightweaponSystemTransform = transform.position + initialRightweaponSystemTransform;
+
+        if (direction.x <= 0f)
         {
             weaponSystemTransform.position = leftweaponSystemTransform;
+            rendWeapon.flipY = true;
+            rendHand.flipY = true;
         }
         else
         {
             weaponSystemTransform.position = rightweaponSystemTransform;
+            rendWeapon.flipY = false;
+            rendHand.flipY = false;
         }
     }
 }

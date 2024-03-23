@@ -10,7 +10,7 @@ public class playerMovement : MonoBehaviour
     [HideInInspector] public bool dashing;
     private bool isMoving;
     [HideInInspector] public int dimension;
-    public GameObject weapon;
+    public GameObject weaponSystem;
 
     private float horizontal;
     private float vertical;
@@ -100,7 +100,7 @@ public class playerMovement : MonoBehaviour
                 dashTimer = 0;
                 speed += dashSpeed;
                 playerAnimator.SetBool("isRolling", true);
-                weapon.SetActive(false);
+                weaponSystem.SetActive(false);
             }
         }
 
@@ -115,7 +115,7 @@ public class playerMovement : MonoBehaviour
                 
                 if(dimension == 2)
                 {
-                    weapon.SetActive(true);
+                    weaponSystem.SetActive(true);
                 }
             }
         }

@@ -1422,7 +1422,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.7793617, y: 0, z: 0}
-  m_LocalScale: {x: 6, y: 6, z: 6}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -1706,7 +1706,7 @@ MonoBehaviour:
   dashTime: 0.5
   dashing: 0
   dimension: 0
-  weapon: {fileID: 231630096}
+  weaponSystem: {fileID: 115176267}
 --- !u!65 &1519083838
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1748,7 +1748,8 @@ MonoBehaviour:
   startCam: {fileID: 754403423}
   changingDimension: 0
   canDash: 0
-  weapon: {fileID: 115176267}
+  weaponSystem: {fileID: 115176267}
+  crosshair: {fileID: 968355005}
 --- !u!95 &1519083840
 Animator:
   serializedVersion: 5
