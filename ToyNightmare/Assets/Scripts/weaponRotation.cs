@@ -10,13 +10,14 @@ public class weaponRotation : MonoBehaviour
 
     [HideInInspector] public Vector3 direction;
 
-    public GameObject weapon;
-    private SpriteRenderer rendWeapon;
+    //public GameObject weapon;
+    //private SpriteRenderer rendWeapon;
 
+    
 
     private void Start()
     {
-        rendWeapon = weapon.GetComponent<SpriteRenderer>();
+        //rendWeapon = weapon.GetComponent<SpriteRenderer>();
     }
 
     private void FixedUpdate()
@@ -30,15 +31,6 @@ public class weaponRotation : MonoBehaviour
         
         direction = (mouseWorldPoint - transform.position).normalized;
         float angle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
-
-        if(direction.z < 0)
-        {
-            rendWeapon.sortingOrder = 4;
-        }
-        else
-        {
-            rendWeapon.sortingOrder = 2;
-        }
 
         transform.eulerAngles = new Vector3(90, 0, angle);
     }

@@ -29,15 +29,17 @@ public class handPosition : MonoBehaviour
     public GameObject hand;
     private SpriteRenderer rendHand;
 
-
+    private FirePointPosition scriptFirePointPosition;
     void Start()
     {
-        initialLeftweaponSystemTransform = new Vector3(-weaponSystemTransform.position.x, weaponSystemTransform.position.y, weaponSystemTransform.position.z);
-        initialRightweaponSystemTransform = new Vector3(weaponSystemTransform.position.x, weaponSystemTransform.position.y, weaponSystemTransform.position.z);
+        initialLeftweaponSystemTransform = new Vector3(-weaponSystemTransform.localPosition.x, weaponSystemTransform.localPosition.y, 0);
+        initialRightweaponSystemTransform = new Vector3(weaponSystemTransform.localPosition.x, weaponSystemTransform.localPosition.y, 0);
         weaponSystemTransformAnimator = weaponSystemTransform.GetComponent<Animator>();
 
         rendWeapon = weapon.GetComponent<SpriteRenderer>();
         rendHand = hand.GetComponent<SpriteRenderer>();
+
+        scriptFirePointPosition = GameObject.Find("firePoint").GetComponent<FirePointPosition>();
     }
 
     private void FixedUpdate()
@@ -53,20 +55,22 @@ public class handPosition : MonoBehaviour
         direction = (mouseWorldPoint - transform.position);
         //print(direction.x);
 
-        leftweaponSystemTransform = transform.position + initialLeftweaponSystemTransform;
-        rightweaponSystemTransform = transform.position + initialRightweaponSystemTransform;
+        leftweaponSystemTransform = initialLeftweaponSystemTransform;
+        rightweaponSystemTransform =  initialRightweaponSystemTransform;
 
         if (direction.x <= 0f)
         {
-            weaponSystemTransform.position = leftweaponSystemTransform;
+            weaponSystemTransform.localPosition = leftweaponSystemTransform;
             rendWeapon.flipY = true;
             rendHand.flipY = true;
         }
         else
         {
-            weaponSystemTransform.position = rightweaponSystemTransform;
+            weaponSystemTransform.localPosition = rightweaponSystemTransform;
             rendWeapon.flipY = false;
             rendHand.flipY = false;
         }
+
+        scriptFirePointPosition.fixFirePointPosition(direction);
     }
 }
