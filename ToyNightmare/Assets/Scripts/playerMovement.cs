@@ -25,6 +25,9 @@ public class playerMovement : MonoBehaviour
 
     private float dashTimer;
 
+    SpriteRenderer shootEffectSpriteRender;
+    public Sprite spriteee;
+
     private void Start()
     {
         dashing = false;
@@ -32,6 +35,8 @@ public class playerMovement : MonoBehaviour
         scriptDimension = GetComponent<ChangeDimension>();
         scriptHandPosition = GetComponent<handPosition>();
         playerAnimator = GetComponent<Animator>();
+
+        shootEffectSpriteRender = GameObject.Find("shootEffect").GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -101,6 +106,7 @@ public class playerMovement : MonoBehaviour
                 speed += dashSpeed;
                 playerAnimator.SetBool("isRolling", true);
                 weaponSystem.SetActive(false);
+                shootEffectSpriteRender.sprite = spriteee;
             }
         }
 

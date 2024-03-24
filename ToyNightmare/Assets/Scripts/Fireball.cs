@@ -10,7 +10,7 @@ public class Fireball : MonoBehaviour
     {
         Destroy(gameObject, 20);
 
-        transform.position += transform.up * speed * Time.deltaTime;
+        transform.position += transform.right * speed * Time.deltaTime;
     }
     
     private void OnTriggerEnter(Collider other)

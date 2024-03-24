@@ -12,12 +12,13 @@ public class playerShoot : MonoBehaviour
     public GameObject weaponSystem;
     private Animator weaponSystemAnimator;
 
-    private bool shooting;
+    private Animator shootEffectAnimator;
 
     private void Start()
     {
         scriptMovement = GetComponentInParent<playerMovement>();
         weaponSystemAnimator = weaponSystem.GetComponent<Animator>();
+        shootEffectAnimator = GameObject.Find("shootEffect").GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -29,6 +30,7 @@ public class playerShoot : MonoBehaviour
             {
                 Instantiate(fireballPrefab, firePoint.position, firePoint.rotation);
                 weaponSystemAnimator.SetTrigger("Shoot");
+                shootEffectAnimator.SetTrigger("Shoot");
             }
         }
     }

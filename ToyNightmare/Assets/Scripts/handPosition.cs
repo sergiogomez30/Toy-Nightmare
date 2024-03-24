@@ -30,6 +30,7 @@ public class handPosition : MonoBehaviour
     private SpriteRenderer rendHand;
 
     private FirePointPosition scriptFirePointPosition;
+    private FirePointPosition scriptFirePointPosition_2;
     void Start()
     {
         initialLeftweaponSystemTransform = new Vector3(-weaponSystemTransform.localPosition.x, weaponSystemTransform.localPosition.y, 0);
@@ -40,6 +41,7 @@ public class handPosition : MonoBehaviour
         rendHand = hand.GetComponent<SpriteRenderer>();
 
         scriptFirePointPosition = GameObject.Find("firePoint").GetComponent<FirePointPosition>();
+        scriptFirePointPosition_2 = GameObject.Find("shootEffect").GetComponent<FirePointPosition>();
     }
 
     private void FixedUpdate()
@@ -72,5 +74,6 @@ public class handPosition : MonoBehaviour
         }
 
         scriptFirePointPosition.fixFirePointPosition(direction);
+        scriptFirePointPosition_2.fixFirePointPosition(direction);
     }
 }
