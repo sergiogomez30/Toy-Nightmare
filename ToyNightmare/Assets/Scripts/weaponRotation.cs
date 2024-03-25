@@ -13,11 +13,14 @@ public class weaponRotation : MonoBehaviour
     //public GameObject weapon;
     //private SpriteRenderer rendWeapon;
 
-    
+    private Transform firePointTransform;
+    Vector3 ejemplo;
 
     private void Start()
     {
         //rendWeapon = weapon.GetComponent<SpriteRenderer>();
+        firePointTransform = GameObject.Find("firePoint").transform;
+        //ejemplo = new Vector3(0, firePointTransform.position.y, 0);
     }
 
     private void FixedUpdate()
@@ -28,8 +31,8 @@ public class weaponRotation : MonoBehaviour
         {
             mouseWorldPoint = raycastHit.point;
         }
-        
-        direction = (mouseWorldPoint - transform.position).normalized;
+
+        direction = (mouseWorldPoint - firePointTransform.position);
         float angle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
 
         transform.eulerAngles = new Vector3(90, 0, angle);
