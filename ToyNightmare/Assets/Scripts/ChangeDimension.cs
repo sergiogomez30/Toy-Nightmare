@@ -15,24 +15,31 @@ public class ChangeDimension : MonoBehaviour
     public Camera startCam;
     private Camera currentCam;
 
-    playerMovement scriptMovement;
+    private playerMovement scriptMovement;
     [HideInInspector] public bool changingDimension;
     [HideInInspector] public bool canDash;
 
-    public GameObject weaponSystem;
-    public GameObject crosshair;
+    private GameObject weaponSystem;
+    private GameObject crosshair;
 
     private float changeDimensionTimer;
 
-    
+    private ResetShootAnimation scriptResetShootAnimation;
+    private WeaponSystemAnimator scriptWeaponSystemAnimator;
 
     private void Start()
     {
         currentCam = startCam;
         currentCam.depth = 1;
-        scriptMovement = this.GetComponent<playerMovement>();
+        scriptMovement = GetComponent<playerMovement>();
         changingDimension = false;
         canDash = true;
+
+        weaponSystem = GameObject.Find("WeaponSystem");
+        crosshair = GameObject.Find("Crosshair");
+
+        scriptResetShootAnimation = GameObject.Find("ShootEffect").GetComponent<ResetShootAnimation>();
+        scriptWeaponSystemAnimator = weaponSystem.GetComponent<WeaponSystemAnimator>();
     }
 
     void Update()
@@ -85,8 +92,9 @@ public class ChangeDimension : MonoBehaviour
             twoDVirtualFakeCam.Priority = 10;
             threeDVirtualCam.Priority = 20;
 
-            weaponSystem.SetActive(false);
             crosshair.SetActive(false);
+            weaponSystem.SetActive(false);
+            scriptResetShootAnimation.resetSprite(); //devuelve la animación de disparo a su estado inicial por si acaso
 
             scriptMovement.dimension = 3;
         }  
@@ -102,11 +110,11 @@ public class ChangeDimension : MonoBehaviour
             perspectiveCam.depth = 0;
             twoDVirtualFakeCam.Priority = 20;
             twoDVirtualFakeCam_2.Priority = 10;
-            transform.eulerAngles = new Vector3(0, 0, 0);
+            //transform.eulerAngles = new Vector3(0, 0, 0);
         }
         else
         {
-            transform.eulerAngles = new Vector3(0, 90, 0);
+            //transform.eulerAngles = new Vector3(0, 90, 0);
         }
 
     }

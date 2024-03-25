@@ -7,7 +7,7 @@ public class Crosshair : MonoBehaviour
 
     public Camera cam;
     [SerializeField] private LayerMask floorMask;
-    Vector3 mouseWorldPoint;
+    private Vector3 mouseWorldPoint;
 
     private void Start()
     {
@@ -23,6 +23,7 @@ public class Crosshair : MonoBehaviour
             mouseWorldPoint = raycastHit.point;
         }
 
+        print(Input.mousePosition);
         transform.position = mouseWorldPoint;
     }
 }

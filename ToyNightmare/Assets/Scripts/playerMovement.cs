@@ -10,7 +10,7 @@ public class playerMovement : MonoBehaviour
     [HideInInspector] public bool dashing;
     private bool isMoving;
     [HideInInspector] public int dimension;
-    public GameObject weaponSystem;
+    private GameObject weaponSystem;
 
     private float horizontal;
     private float vertical;
@@ -18,15 +18,20 @@ public class playerMovement : MonoBehaviour
     private float lastVertical;
     private Vector3 movementDirection;
 
-    ChangeDimension scriptDimension;
-    handPosition scriptHandPosition;
+    private ChangeDimension scriptDimension;
+    private handPosition scriptHandPosition;
 
     private Animator playerAnimator;
 
     private float dashTimer;
 
-    SpriteRenderer shootEffectSpriteRender;
-    public Sprite spriteee;
+    private GameObject shootEffect;
+    private SpriteRenderer shootEffectSpriteRender;
+
+    private Rigidbody este;
+
+    private ResetShootAnimation scriptResetShootAnimation;
+    private WeaponSystemAnimator scriptWeaponSystemAnimator;
 
     private void Start()
     {
@@ -36,17 +41,24 @@ public class playerMovement : MonoBehaviour
         scriptHandPosition = GetComponent<handPosition>();
         playerAnimator = GetComponent<Animator>();
 
-        shootEffectSpriteRender = GameObject.Find("shootEffect").GetComponent<SpriteRenderer>();
+        weaponSystem = GameObject.Find("WeaponSystem");
+        shootEffect = GameObject.Find("ShootEffect");
+        shootEffectSpriteRender = shootEffect.GetComponent<SpriteRenderer>();
+        scriptResetShootAnimation = shootEffect.GetComponent<ResetShootAnimation>();
+        scriptWeaponSystemAnimator = weaponSystem.GetComponent<WeaponSystemAnimator>();
     }
 
     private void Update()
     {
         dash();
+        isMoving = movementDirection != new Vector3(0, 0, 0);
     }
 
     private void FixedUpdate()
     {
         movement();
+        animations();
+        saveLastPosition();
     }
 
     public void movement()
@@ -72,29 +84,11 @@ public class playerMovement : MonoBehaviour
                 movementDirection = new Vector3(vertical, 0, -horizontal).normalized;
             //}
         }
-        
-        
-        isMoving = movementDirection != new Vector3(0, 0, 0);
-
-        if (movementDirection.sqrMagnitude >= 0.9f) //guarda la última dirección para que al dejar de caminar el personaje se quede mirando hacía ella
-        {
-            lastHorizontal = Input.GetAxisRaw("Horizontal");
-            lastVertical = Input.GetAxisRaw("Vertical");
-        }
-
-        playerAnimator.SetFloat("Horizontal", horizontal);
-        playerAnimator.SetFloat("Vertical", vertical);
-        playerAnimator.SetFloat("LastHorizontal", lastHorizontal);
-        playerAnimator.SetFloat("LastVertical", lastVertical);
-        playerAnimator.SetFloat("Speed", movementDirection.sqrMagnitude);
-        playerAnimator.SetFloat("Direction_x", scriptHandPosition.direction.x);
-        playerAnimator.SetFloat("Direction_z", scriptHandPosition.direction.z);
-        playerAnimator.SetInteger("Dimension", dimension);
 
         //Mueve al jugador
         transform.Translate(movementDirection * speed * Time.deltaTime, Space.World);
     }
-
+   
     public void dash()
     {
         if (Input.GetMouseButtonDown(1))
@@ -106,7 +100,7 @@ public class playerMovement : MonoBehaviour
                 speed += dashSpeed;
                 playerAnimator.SetBool("isRolling", true);
                 weaponSystem.SetActive(false);
-                shootEffectSpriteRender.sprite = spriteee;
+                scriptResetShootAnimation.resetSprite(); //devuelve la animación de disparo a su estado inicial por si acaso
             }
         }
 
@@ -124,6 +118,27 @@ public class playerMovement : MonoBehaviour
                     weaponSystem.SetActive(true);
                 }
             }
+        }
+    }
+
+    private void animations()
+    {
+        playerAnimator.SetFloat("Horizontal", horizontal);
+        playerAnimator.SetFloat("Vertical", vertical);
+        playerAnimator.SetFloat("LastHorizontal", lastHorizontal);
+        playerAnimator.SetFloat("LastVertical", lastVertical);
+        playerAnimator.SetFloat("Speed", movementDirection.sqrMagnitude);
+        playerAnimator.SetFloat("Direction_x", scriptHandPosition.direction.x);
+        playerAnimator.SetFloat("Direction_z", scriptHandPosition.direction.z);
+        playerAnimator.SetInteger("Dimension", dimension);
+    }
+
+    private void saveLastPosition()
+    {
+        if (movementDirection.sqrMagnitude >= 0.9f) //guarda la última dirección para que al dejar de caminar el personaje se quede mirando hacía ella en la tercera dimension
+        {
+            lastHorizontal = Input.GetAxisRaw("Horizontal");
+            lastVertical = Input.GetAxisRaw("Vertical");
         }
     }
 }

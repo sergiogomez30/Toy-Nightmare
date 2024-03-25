@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,46 +8,48 @@ public class handPosition : MonoBehaviour
 
     public Camera cam;
     [SerializeField] private LayerMask floorMask;
-    Vector3 mouseWorldPoint;
+    private Vector3 mouseWorldPoint;
 
-    public Transform weaponSystemTransform;
+    private Transform weaponSystemTransform;
 
     [HideInInspector] public Vector3 direction;
-
-    private Vector3 initialLeftweaponSystemTransform;
-    private Vector3 initialRightweaponSystemTransform;
-    
 
     private Vector3 leftweaponSystemTransform;
     private Vector3 rightweaponSystemTransform;
 
-    public GameObject weaponSystem;
-    private Animator weaponSystemTransformAnimator;
-
-    public GameObject weapon;
+    private GameObject weapon;
     private SpriteRenderer rendWeapon;
 
-    public GameObject hand;
+    private GameObject hand;
     private SpriteRenderer rendHand;
 
-    private FirePointPosition scriptFirePointPosition;
-    private FirePointPosition scriptFirePointPosition_2;
+    private ShootPosition scriptShootBasePointPosition;
+    private ShootPosition scriptShootEffect;
+
     void Start()
     {
-        initialLeftweaponSystemTransform = new Vector3(-weaponSystemTransform.localPosition.x, weaponSystemTransform.localPosition.y, 0);
-        initialRightweaponSystemTransform = new Vector3(weaponSystemTransform.localPosition.x, weaponSystemTransform.localPosition.y, 0);
-        weaponSystemTransformAnimator = weaponSystemTransform.GetComponent<Animator>();
+        weaponSystemTransform = GameObject.Find("WeaponSystem").transform;
+        weapon = GameObject.Find("Weapon");
+        hand = GameObject.Find("Hand");
+
+        leftweaponSystemTransform = new Vector3(-weaponSystemTransform.localPosition.x, weaponSystemTransform.localPosition.y, 0);
+        rightweaponSystemTransform = new Vector3(weaponSystemTransform.localPosition.x, weaponSystemTransform.localPosition.y, 0);
 
         rendWeapon = weapon.GetComponent<SpriteRenderer>();
         rendHand = hand.GetComponent<SpriteRenderer>();
 
-        scriptFirePointPosition = GameObject.Find("firePoint").GetComponent<FirePointPosition>();
-        scriptFirePointPosition_2 = GameObject.Find("shootEffect").GetComponent<FirePointPosition>();
+        scriptShootBasePointPosition = GameObject.Find("ShootBasePoint").GetComponent<ShootPosition>();
+        scriptShootEffect = GameObject.Find("ShootEffect").GetComponent<ShootPosition>();
     }
 
     private void FixedUpdate()
     {
+        calculateHandPosition();
+        
+    }
 
+    private void calculateHandPosition()
+    {
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit raycastHit, Mathf.Infinity, floorMask))
@@ -56,9 +59,6 @@ public class handPosition : MonoBehaviour
 
         direction = (mouseWorldPoint - transform.position);
         //print(direction.x);
-
-        leftweaponSystemTransform = initialLeftweaponSystemTransform;
-        rightweaponSystemTransform =  initialRightweaponSystemTransform;
 
         if (direction.x <= 0f)
         {
@@ -73,7 +73,7 @@ public class handPosition : MonoBehaviour
             rendHand.flipY = false;
         }
 
-        scriptFirePointPosition.fixFirePointPosition(direction);
-        scriptFirePointPosition_2.fixFirePointPosition(direction);
+        scriptShootBasePointPosition.fixPosition(direction);
+        scriptShootEffect.fixPosition(direction);
     }
 }

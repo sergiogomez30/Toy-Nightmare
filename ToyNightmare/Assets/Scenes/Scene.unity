@@ -250,6 +250,7 @@ GameObject:
   - component: {fileID: 115176268}
   - component: {fileID: 115176269}
   - component: {fileID: 115176270}
+  - component: {fileID: 115176271}
   m_Layer: 0
   m_Name: WeaponSystem
   m_TagString: WeaponRotation
@@ -311,6 +312,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   direction: {x: 0, y: 0, z: 0}
+--- !u!114 &115176271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 115176267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b8ea4bd2c7290b4a9c451eb065d7717, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &231630096
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,7 +421,7 @@ GameObject:
   - component: {fileID: 249181534}
   - component: {fileID: 249181535}
   m_Layer: 0
-  m_Name: firePoint
+  m_Name: ShootBasePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -526,8 +539,9 @@ GameObject:
   - component: {fileID: 370952965}
   - component: {fileID: 370952964}
   - component: {fileID: 370952966}
+  - component: {fileID: 370952967}
   m_Layer: 0
-  m_Name: shootEffect
+  m_Name: ShootEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -588,7 +602,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -633,6 +647,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 465bfd0eb1ed52d429c02a13a006f8ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &370952967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370952962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 672a625aceff1f44db58932f865c5496, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteNone: {fileID: 0}
 --- !u!1 &406520217
 GameObject:
   m_ObjectHideFlags: 0
@@ -650,7 +677,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &406520218
 Transform:
@@ -993,7 +1020,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &647001135
 Transform:
@@ -1662,7 +1689,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1162836820
 Transform:
@@ -1765,7 +1792,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1445204853}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: ShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1780,7 +1807,7 @@ Transform:
   m_GameObject: {fileID: 1445204852}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.187, y: 0, z: 0}
+  m_LocalPosition: {x: 0.23, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1870,8 +1897,6 @@ MonoBehaviour:
   dashTime: 0.5
   dashing: 0
   dimension: 0
-  weaponSystem: {fileID: 115176267}
-  spriteee: {fileID: 0}
 --- !u!65 &1519083838
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1913,8 +1938,6 @@ MonoBehaviour:
   startCam: {fileID: 754403423}
   changingDimension: 0
   canDash: 0
-  weaponSystem: {fileID: 115176267}
-  crosshair: {fileID: 968355005}
 --- !u!95 &1519083840
 Animator:
   serializedVersion: 5
@@ -2001,8 +2024,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireballPrefab: {fileID: 7906303288788491911, guid: 16baacc7b5b30b64d88b15c4ad37c9dc, type: 3}
-  firePoint: {fileID: 1445204853}
-  weaponSystem: {fileID: 115176267}
 --- !u!114 &1519083843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2019,11 +2040,7 @@ MonoBehaviour:
   floorMask:
     serializedVersion: 2
     m_Bits: 256
-  weaponSystemTransform: {fileID: 115176268}
   direction: {x: 0, y: 0, z: 0}
-  weaponSystem: {fileID: 115176267}
-  weapon: {fileID: 231630096}
-  hand: {fileID: 445639138}
 --- !u!1 &1683781081
 GameObject:
   m_ObjectHideFlags: 3
@@ -2273,7 +2290,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!65 &1707667278
 BoxCollider:
@@ -2378,7 +2395,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1753407941
 Transform:
@@ -2555,7 +2572,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1984223832
 Transform:
@@ -2660,7 +2677,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!65 &2034325732
 BoxCollider:
