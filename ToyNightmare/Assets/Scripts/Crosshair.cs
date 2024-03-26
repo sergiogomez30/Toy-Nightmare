@@ -30,7 +30,8 @@ public class Crosshair : MonoBehaviour
             mouseWorldPoint = raycastHit.point;
         }
 
-        print(Input.mousePosition);
+        //print(Input.mousePosition);
+
         transform.position = mouseWorldPoint;
     }
 
