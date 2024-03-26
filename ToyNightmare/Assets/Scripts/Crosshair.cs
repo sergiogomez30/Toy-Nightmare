@@ -9,9 +9,16 @@ public class Crosshair : MonoBehaviour
     [SerializeField] private LayerMask floorMask;
     private Vector3 mouseWorldPoint;
 
+    public Sprite crosshairSprite;
+    public Sprite noneSprite;
+
+    private SpriteRenderer crosshairRenderer;
+
     private void Start()
     {
         Cursor.visible = false;
+
+        crosshairRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void FixedUpdate()
@@ -25,6 +32,19 @@ public class Crosshair : MonoBehaviour
 
         print(Input.mousePosition);
         transform.position = mouseWorldPoint;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Walls")
+        {
+            crosshairRenderer.sprite = noneSprite;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        crosshairRenderer.sprite = crosshairSprite;
     }
 }
 

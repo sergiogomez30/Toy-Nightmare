@@ -15,10 +15,9 @@ public class Fireball : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 0)
+        if(other.gameObject.tag != "Crosshair" && other.gameObject.layer == 0)
         {
             Destroy(gameObject);
         }
-
     }
 }
