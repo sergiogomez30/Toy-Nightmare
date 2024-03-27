@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine;
 public class Fireball : MonoBehaviour
 {
     public float speed;
+    public GameObject bulletHitPrefab;
+    
 
     void FixedUpdate()
     {
@@ -12,11 +15,12 @@ public class Fireball : MonoBehaviour
 
         transform.position += transform.right * speed * Time.deltaTime;
     }
-    
-    private void OnTriggerEnter(Collider other)
+
+    private void OnCollisionEnter(Collision collision)
     {
-        if(other.gameObject.tag != "Crosshair" && other.gameObject.layer == 0)
+        if (collision.gameObject.layer != 8)
         {
+            Instantiate(bulletHitPrefab, collision.contacts[0].point + new Vector3(0,0,-0.1f), Quaternion.identity);
             Destroy(gameObject);
         }
     }

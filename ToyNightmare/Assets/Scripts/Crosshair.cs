@@ -4,49 +4,22 @@ using UnityEngine;
 
 public class Crosshair : MonoBehaviour
 {
+    // Reference to the RectTransform component of the crosshair UI
+    private RectTransform crosshairRectTransform;
 
-    public Camera cam;
-    [SerializeField] private LayerMask floorMask;
-    private Vector3 mouseWorldPoint;
-
-    public Sprite crosshairSprite;
-    public Sprite noneSprite;
-
-    private SpriteRenderer crosshairRenderer;
-
-    private void Start()
+    void Start()
     {
         Cursor.visible = false;
-
-        crosshairRenderer = GetComponent<SpriteRenderer>();
+        // Get reference to the RectTransform component
+        crosshairRectTransform = GetComponent<RectTransform>();
     }
 
-    private void FixedUpdate()
+    void Update()
     {
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        // Convert mouse position to Canvas space
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(crosshairRectTransform.parent as RectTransform, Input.mousePosition, null, out Vector2 localPoint);
 
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, Mathf.Infinity, floorMask))
-        {
-            mouseWorldPoint = raycastHit.point;
-        }
-
-        //print(Input.mousePosition);
-
-        transform.position = mouseWorldPoint;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.tag == "Walls")
-        {
-            crosshairRenderer.sprite = noneSprite;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        crosshairRenderer.sprite = crosshairSprite;
+        // Set crosshair position
+        crosshairRectTransform.localPosition = localPoint;
     }
 }
-
-
