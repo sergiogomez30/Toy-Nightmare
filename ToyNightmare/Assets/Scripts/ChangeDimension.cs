@@ -24,8 +24,7 @@ public class ChangeDimension : MonoBehaviour
 
     private float changeDimensionTimer;
 
-    private ResetShootAnimation scriptResetShootAnimation;
-    private WeaponSystemAnimator scriptWeaponSystemAnimator;
+    private ResetAnimations scriptResetAnimations;
 
     private void Start()
     {
@@ -38,18 +37,13 @@ public class ChangeDimension : MonoBehaviour
         weaponSystem = GameObject.Find("WeaponSystem");
         crosshair = GameObject.Find("Crosshair");
 
-        scriptResetShootAnimation = GameObject.Find("ShootEffect").GetComponent<ResetShootAnimation>();
-        scriptWeaponSystemAnimator = weaponSystem.GetComponent<WeaponSystemAnimator>();
+        scriptResetAnimations = GetComponent<ResetAnimations>();
     }
 
     void Update()
     {
         changeDimension();
-
-        if (changingDimension)
-        {
-            rotatePlayer();
-        }
+        rotatePlayer();
     }
 
     public void changeDimension()
@@ -94,7 +88,8 @@ public class ChangeDimension : MonoBehaviour
 
             crosshair.SetActive(false);
             weaponSystem.SetActive(false);
-            scriptResetShootAnimation.resetSprite(); //devuelve la animación de disparo a su estado inicial por si acaso
+            scriptResetAnimations.resetShootEffectSprite(); //devuelve la animación de disparo a su estado inicial por si acaso
+            scriptResetAnimations.resetWeaponSprite();
 
             scriptMovement.dimension = 3;
         }  
@@ -121,37 +116,40 @@ public class ChangeDimension : MonoBehaviour
 
     public void rotatePlayer()
     {
-        transform.eulerAngles = new Vector3(0, perspectiveCam.transform.eulerAngles.y, 0);
-
-        changeDimensionTimer += Time.deltaTime;
-        if(currentCam == ortographicCam)
+        if (changingDimension)
         {
-            if (changeDimensionTimer >= 1)
+            transform.eulerAngles = new Vector3(0, perspectiveCam.transform.eulerAngles.y, 0);
+
+            changeDimensionTimer += Time.deltaTime;
+            if (currentCam == ortographicCam)
             {
-                tiltPlayerAndCameras();
+                if (changeDimensionTimer >= 1)
+                {
+                    tiltPlayerAndCameras();
+                }
             }
-        }
-        else
-        {
-            if (changeDimensionTimer >= 0.44f)
+            else
             {
-                tiltPlayerAndCameras();
+                if (changeDimensionTimer >= 0.44f)
+                {
+                    tiltPlayerAndCameras();
+                }
             }
-        }
 
-        if (changeDimensionTimer >= 0.2f)
-        {
-            canDash = true; //permite dashear poco después de que empiece la animación de cambio de dimensión
-        }
+            if (changeDimensionTimer >= 0.2f)
+            {
+                canDash = true; //permite dashear poco después de que empiece la animación de cambio de dimensión
+            }
 
 
-        /*if (currentCam == twoDVirtualFakeCam)
-        {
-            transform.Rotate(0, -90 * Time.deltaTime, 0);
+            /*if (currentCam == twoDVirtualFakeCam)
+            {
+                transform.Rotate(0, -90 * Time.deltaTime, 0);
+            }
+            else
+            {
+                transform.Rotate(0, 90 * Time.deltaTime, 0);
+            }*/
         }
-        else
-        {
-            transform.Rotate(0, 90 * Time.deltaTime, 0);
-        }*/
     }
 }

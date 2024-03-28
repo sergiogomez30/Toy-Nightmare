@@ -30,8 +30,7 @@ public class playerMovement : MonoBehaviour
 
     private Rigidbody este;
 
-    private ResetShootAnimation scriptResetShootAnimation;
-    private WeaponSystemAnimator scriptWeaponSystemAnimator;
+    private ResetAnimations scriptResetAnimations;
 
     private void Start()
     {
@@ -44,8 +43,7 @@ public class playerMovement : MonoBehaviour
         weaponSystem = GameObject.Find("WeaponSystem");
         shootEffect = GameObject.Find("ShootEffect");
         shootEffectSpriteRender = shootEffect.GetComponent<SpriteRenderer>();
-        scriptResetShootAnimation = shootEffect.GetComponent<ResetShootAnimation>();
-        scriptWeaponSystemAnimator = weaponSystem.GetComponent<WeaponSystemAnimator>();
+        scriptResetAnimations = GetComponent<ResetAnimations>();
     }
 
     private void Update()
@@ -100,14 +98,14 @@ public class playerMovement : MonoBehaviour
                 speed += dashSpeed;
                 playerAnimator.SetBool("isRolling", true);
                 weaponSystem.SetActive(false);
-                scriptResetShootAnimation.resetSprite(); //devuelve la animación de disparo a su estado inicial por si acaso
+                scriptResetAnimations.resetShootEffectSprite(); //devuelve la animación de disparo a su estado inicial por si acaso
             }
         }
 
         if (dashing)
         {
             dashTimer += Time.deltaTime;
-            if(dashTimer > dashTime)
+            if(dashTimer >= dashTime)
             {
                 speed -= dashSpeed;
                 dashing = false;
